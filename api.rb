@@ -2,15 +2,19 @@ require 'open-uri'
 require 'json'
 
 class API
-  def initialize(category=0, count = 20, random=false, type=0)
+  def initialize(category=0, count = 20, random = false, type = 0)
     @category = category
     @count = count
     @random = (random ? 1 : 0)
     @type = type
     @from_date = 0
+    @format = 'id title'
   end
   def set_from date
     @from_date = date
+  end
+  def set_format format
+    @format = format
   end
   # Categories:
   # 1: Programmers
@@ -57,10 +61,22 @@ class API
     @query
   end
   def format string
-    formatted = string["category_name"] + "\n" + string["title"] + "\n" + string["description"]
+    formatted = ""
+    if @format.include?"id"
+      formatted += "id: " + string["id"]
+    end
+    if @format.include?"title"
+      formatted += "\nTitle: " + string["title"]
+    end
+    if @format.include?"category"
+      formatted += "\nCategory: " + string["category_name"]
+    end
+    if @format.include?"description"
+      formatted += "\nDescription: " + string["description"]
+    end
+    formatted
   end
-  
-  def get
+  def get_latest formatted=true
     query = create_query
     open(query) do |f|
       f.each_line do |line|
@@ -69,15 +85,30 @@ class API
           data = raw.gsub('var jobs = ','').gsub(';', '')
           obj = JSON.parse(data)
           @formatted = Array.new
+          @latest = Array.new
           @from_date ||= Date.today
           obj.each do |job|
             if Date.parse(job["created_on"]) > @from_date
               @formatted << (format job)
+              @latest << job
             end
           end
         end
       end
     end
-    @formatted
+    if formatted
+      @formatted
+    else
+      @latest
+    end
+  end
+  def get_job id=nil
+    if @latest.nil?
+      get_latest
+    end
+    if id.nil?
+      raise "No Id for job"
+    end
+    format @latest.select{|obj| obj["id"] == id}.first
   end
 end
