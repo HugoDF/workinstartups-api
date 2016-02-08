@@ -43,7 +43,7 @@ class WorkInStartupsAPI
   # Ordering:
   # 0: by post date
   # 1: randomly
-  def category_from_string string
+  def self.category_from_string string
     stripped = string.downcase.gsub(/\W+/, '')
     category = case stripped
       when 'all' then 0
