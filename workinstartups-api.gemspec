@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'workinstartups-api'
-  s.version     = '0.0.2'
+  s.version     = '0.0.3'
   s.date        = '2016-02-08'
   s.summary     = "Work In Startups UK API wrapper"
   s.description = "API wrapper around a publicly exposed endpoint"

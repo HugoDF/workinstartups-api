@@ -43,6 +43,32 @@ class WorkInStartupsAPI
   # Ordering:
   # 0: by post date
   # 1: randomly
+  def category_from_string string
+    stripped = string.downcase.gsub(/\W+/, '')
+    case stripped
+      when stripped.include?'all'
+        0
+      when stripped.include?'cofounder'
+        16
+      when stripped.include?'programmer'
+        1
+      when stripped.include?'designer'
+        2
+      when stripped.include?'intern'
+        3
+      when stripped.include?'tester'
+        5
+      when stripped.include?'marketer'
+        7
+      when stripped.include?'manager'
+        8
+      when stripped.include?'consultant'
+        9
+      when stripped.include?'sale'
+        15
+    end
+  end
+  end
 
   def create_query
     base_uri = URI.parse("http://workinstartups.com/job-board/api/api.php")
