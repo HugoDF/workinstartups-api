@@ -45,29 +45,18 @@ class WorkInStartupsAPI
   # 1: randomly
   def category_from_string string
     stripped = string.downcase.gsub(/\W+/, '')
-    case stripped
-      when stripped.include?'all'
-        0
-      when stripped.include?'cofounder'
-        16
-      when stripped.include?'programmer'
-        1
-      when stripped.include?'designer'
-        2
-      when stripped.include?'intern'
-        3
-      when stripped.include?'tester'
-        5
-      when stripped.include?'marketer'
-        7
-      when stripped.include?'manager'
-        8
-      when stripped.include?'consultant'
-        9
-      when stripped.include?'sale'
-        15
+    category = case stripped
+      when 'all' then 0
+      when 'cofounder' then 16
+      when 'programmer' then 1
+      when 'designer' then 2
+      when 'intern' then 3
+      when 'tester' then 5
+      when 'marketer' then 7
+      when 'manager' then 8
+      when 'consultant' then 9
+      when 'sale' then 15
     end
-  end
   end
 
   def create_query
