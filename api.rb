@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'json'
 
-class API
+class WISAPI
   def initialize(category=0, count = 20, random = false, type = 0)
     @category = category
     @count = count
