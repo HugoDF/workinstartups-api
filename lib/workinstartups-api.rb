@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'json'
 
-class WISAPI
+class WorkInStartupsAPI
   def initialize(category=0, count = 20, random = false, type = 0)
     @category = category
     @count = count
@@ -103,11 +103,11 @@ class WISAPI
     end
   end
   def get_job id=nil
-    if @latest.nil?
-      get_latest
-    end
     if id.nil?
       raise "No Id for job"
+    end
+    if @latest.nil?
+      get_latest
     end
     format @latest.select{|obj| obj["id"] == id}.first
   end
