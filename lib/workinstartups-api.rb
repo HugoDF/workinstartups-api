@@ -1,8 +1,38 @@
 require 'open-uri'
 require 'json'
+# Categories:
+# 1: Programmers
+# 2: Designers
+# 3: Interns
+# 4: undefined
+# 5: Testers
+# 6: undefined
+# 7: Marketers
+# 8: Managers
+# 9: Consultants
+# 10: undefined
+# 11: undefined
+# 12: undefined
+# 13: undefined
+# 14: undefined
+# 15: Sales
+# 16: Co-Founders
 
+# Type:
+# 0: all
+# fulltime
+# parttime
+# freelance
+
+# Ordering:
+# 0: by post date
+# 1: randomly
 class WorkInStartupsAPI
-  def initialize(category=0, count = 20, random = false, type = 0)
+  DEFAULT_CATEGORY = 0
+  DEFAULT_COUNT = 20
+  DEFAULT_ORDER = false
+  DEFAULT_TYPE = 0
+  def initialize(category=DEFAULT_CATEGORY, count = DEFAULT_COUNT, random = DEFAULT_ORDER, type = DEFAULT_TYPE)
     @category = category
     @count = count
     @random = (random ? 1 : 0)
@@ -16,33 +46,6 @@ class WorkInStartupsAPI
   def set_format format
     @format = format
   end
-  # Categories:
-  # 1: Programmers
-  # 2: Designers
-  # 3: Interns
-  # 4: undefined
-  # 5: Testers
-  # 6: undefined
-  # 7: Marketers
-  # 8: Managers
-  # 9: Consultants
-  # 10: undefined
-  # 11: undefined
-  # 12: undefined
-  # 13: undefined
-  # 14: undefined
-  # 15: Sales
-  # 16: Co-Founders
-
-  # Type:
-  # 0: all
-  # fulltime
-  # parttime
-  # freelance
-
-  # Ordering:
-  # 0: by post date
-  # 1: randomly
   def self.category_from_string string
     stripped = string.downcase.gsub(/\W+/, '')
     category = case stripped
@@ -124,6 +127,6 @@ class WorkInStartupsAPI
     if @latest.nil?
       get_latest
     end
-    format @latest.select{|obj| obj["id"] == id}.first
+    format @latest.detect{|obj| obj["id"] == id}.first
   end
 end
